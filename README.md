@@ -12,11 +12,3 @@
 ## API
 https://customvisionappserver.azurewebsites.net/api/v1
 To confirm server is up and running, paste api in browser, you should get a hello world in return
-
-## Endpoints
-- /add-image
-- /train-model
-- /get-iterations
-- /publish-iteration
-- /prediction
-- /get-tags
