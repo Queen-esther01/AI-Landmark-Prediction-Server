@@ -111,10 +111,10 @@ router.post('/prediction', uploads.single('Image'), async(req:any, res:Response)
         const results = await predictor.classifyImage(process.env.PROJECT_ID, iterations[0].publishName, readyFile);
 
         // Show results
-        console.log("Results:");
-        results.predictions.forEach((predictedResult: { tagName: string; probability: number; }) => {
-            console.log(`\t ${predictedResult.tagName}: ${(predictedResult.probability * 100.0).toFixed(2)}%`);
-        });
+        // console.log("Results:");
+        // results.predictions.forEach((predictedResult: { tagName: string; probability: number; }) => {
+        //     console.log(`\t ${predictedResult.tagName}: ${(predictedResult.probability * 100.0).toFixed(2)}%`);
+        // });
         await deleteFile();
         return res.status(200).send(results);
     } catch (error) {
