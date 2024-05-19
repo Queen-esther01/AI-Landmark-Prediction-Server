@@ -1,8 +1,6 @@
-import { Request, Response } from 'express'
 
 
-
-function error(err: any, req:Request, res:Response, next: any){
+function error(err, req, res, next){
     res.status(500).send({
         result: 'Internal Server Error',
         data: {

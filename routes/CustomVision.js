@@ -1,5 +1,4 @@
-import express, { Request, Response } from 'express'
-import { File } from '../types/types';
+const express = require('express')
 
 
 const msRest = require("@azure/ms-rest-js");
@@ -28,19 +27,19 @@ const trainer = new TrainingApi.TrainingAPIClient(credentials, trainingEndpoint)
 const predictor_credentials = new msRest.ApiKeyCredentials({ inHeader: { "Prediction-key": predictionKey } });
 const predictor = new PredictionApi.PredictionAPIClient(predictor_credentials, predictionEndpoint);
 
-router.get('/', (req:Request, res:Response) => {
+router.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-router.post('/add-image', uploads.array('EiffelTower', 10), async(req:any, res:Response) => {
+router.post('/add-image', uploads.array('EiffelTower', 10), async(req, res) => {
     // Access the file object
     //const files = req.files;
 
     const imagesPath = path.join(__dirname, '../uploads'); // Directory where your images are stored
     const files = fs.readdirSync(imagesPath);
 
-    let fileUploadPromises: any[] = [];
-    files.forEach((file: string) => {
+    let fileUploadPromises = [];
+    files.forEach((file) => {
         fileUploadPromises.push(trainer.createImagesFromData(process.env.PROJECT_ID, fs.readFileSync(`${imagesPath}\\${file}`), { tagIds: [req.body.tagId]}))
     })
 
@@ -54,7 +53,7 @@ router.post('/add-image', uploads.array('EiffelTower', 10), async(req:any, res:R
     }
 })
 
-router.post('/train-model', async(req:any, res:Response) => {
+router.post('/train-model', async(req, res) => {
     console.log("Training...");
     let trainingIteration = await trainer.trainProject(process.env.PROJECT_ID);
 
@@ -68,7 +67,7 @@ router.post('/train-model', async(req:any, res:Response) => {
     console.log("Training status: " + trainingIteration.status);
 })
 
-router.get('/get-iterations', async(req:any, res:Response) => {
+router.get('/get-iterations', async(req, res) => {
     try {
         const iterations = await trainer.getIterations(process.env.PROJECT_ID)
         return res.status(200).send(iterations);
@@ -77,7 +76,7 @@ router.get('/get-iterations', async(req:any, res:Response) => {
     }
 })
 
-router.post('/publish-iteration',  async(req:any, res:Response) => {
+router.post('/publish-iteration',  async(req, res) => {
     try {
         const iterations = await trainer.getIterations(process.env.PROJECT_ID)
         if(iterations.length === 0){
@@ -94,7 +93,7 @@ router.post('/publish-iteration',  async(req:any, res:Response) => {
 })
 
 
-router.post('/prediction', uploads.single('Image'), async(req:any, res:Response) => {
+router.post('/prediction', uploads.single('Image'), async(req, res) => {
     try {
         const iterations = await trainer.getIterations(process.env.PROJECT_ID)
         if(iterations.length === 0){
@@ -124,7 +123,7 @@ router.post('/prediction', uploads.single('Image'), async(req:any, res:Response)
     }
 })
 
-router.get('/get-tags', async(req:Request, res:Response) => {
+router.get('/get-tags', async(req, res) => {
     const tags = await trainer.getTags(process.env.PROJECT_ID)
     return res.status(200).send(tags);
 })
