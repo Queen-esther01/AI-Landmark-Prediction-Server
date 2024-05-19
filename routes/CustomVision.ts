@@ -7,11 +7,10 @@ const util = require('util');
 const fs = require('fs');
 const path = require('path'); 
 const router = express.Router()
-// const uploads = require('../middlewares/uploads')
 const multer = require('multer');
 multer({ dest: 'uploads/' })
 const uploads = require('../middlewares/uploads')
-const {convertToBlob, deleteFile } = require('../helpers/fileHandlers')
+const {deleteFile } = require('../helpers/fileHandlers')
 
 const TrainingApi = require("@azure/cognitiveservices-customvision-training");
 const PredictionApi = require("@azure/cognitiveservices-customvision-prediction");
@@ -22,7 +21,6 @@ const predictionKey = process.env["VISION_PREDICTION_KEY"];
 const predictionResourceId = process.env["VISION_PREDICTION_RESOURCE_ID"];
 const predictionEndpoint = process.env["VISION_PREDICTION_ENDPOINT"];
 
-const publishIterationName = "classifyModel";
 const setTimeoutPromise = util.promisify(setTimeout);
 
 const credentials = new msRest.ApiKeyCredentials({ inHeader: { "Training-key": trainingKey } });
@@ -30,6 +28,9 @@ const trainer = new TrainingApi.TrainingAPIClient(credentials, trainingEndpoint)
 const predictor_credentials = new msRest.ApiKeyCredentials({ inHeader: { "Prediction-key": predictionKey } });
 const predictor = new PredictionApi.PredictionAPIClient(predictor_credentials, predictionEndpoint);
 
+router.get('/', (req:Request, res:Response) => {
+    res.send('Hello World!');
+});
 
 router.post('/add-image', uploads.array('EiffelTower', 10), async(req:any, res:Response) => {
     // Access the file object
@@ -85,7 +86,7 @@ router.post('/publish-iteration',  async(req:any, res:Response) => {
                 message: 'There are no iterations to publish'
             });
         }
-        const published = await trainer.publishIteration(process.env.PROJECT_ID, iterations[0].id, iterations[0].publishName, predictionResourceId);
+        const published = await trainer.publishIteration(process.env.PROJECT_ID, iterations[0].id, req.body.iterationName, predictionResourceId);
         return res.status(200).send(published);
     } catch (error) {
         return res.status(200).send(error);
