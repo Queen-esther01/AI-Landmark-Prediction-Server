@@ -1,9 +1,9 @@
-import express, { Application } from 'express'
+const express = require('express')
 const cors = require("cors");
 const error = require('../middlewares/error')
 const customvision = require('../routes/CustomVision')
 
-module.exports = function(app: Application) {
+module.exports = function(app) {
     //MIDDLEWARES
     app.use(express.json())
     app.use(express.urlencoded({ extended: true }))

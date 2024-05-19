@@ -1,9 +1,9 @@
 const fs = require('fs');
 const paths = require('path'); 
 
-const convertToBlob = (filePath: string, mimeType: string) => {
+const convertToBlob = (filePath, mimeType) => {
     return new Promise((resolve, reject) => {
-        fs.readFile(filePath, (err: any, data: { buffer: unknown; }) => {
+        fs.readFile(filePath, (err, data) => {
             if (err) {
                 return reject(err);
             }
@@ -15,12 +15,12 @@ const convertToBlob = (filePath: string, mimeType: string) => {
 
 const deleteFile = () => {
     return new Promise((resolve, reject) => {
-        fs.readdir('uploads/', (err: unknown, files: any[]) => {
+        fs.readdir('uploads/', (err, files) => {
             if (err) return reject(err);
     
             const deletePromises = files.map(file => {
-                return new Promise<void>((resolve, reject) => {
-                    fs.unlink(paths.join('uploads/', file), (err: unknown) => {
+                return new Promise((resolve, reject) => {
+                    fs.unlink(paths.join('uploads/', file), (err) => {
                         if (err) return reject(err);
                         resolve();
                     });

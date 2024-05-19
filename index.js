@@ -1,7 +1,5 @@
-import { Request, Response } from "express";
 
 const express = require('express')
-const msRest = require("@azure/ms-rest-js");
 
 require("dotenv").config();
 
