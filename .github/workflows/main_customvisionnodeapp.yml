@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - CustomVisionNodeApp
+name: Build and deploy Node.js app to Azure Web App - customvisionnodeapp
 
 on:
   push:
@@ -51,15 +51,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B67BD50973FB4A1F9AFBFC131C3F27FC }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E40738F75727422887E950C6EB529092 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_4B1A798D676C4695A4C2280DC78A8AA5 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_D5614AD5DE8E4AEEAF1D8731263337F4 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_B6D0930F77A84668B3451AFE059A4E68 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F8C451FF3D50413CB54C0FAC13C9B7B4 }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
-          app-name: 'CustomVisionNodeApp'
+          app-name: 'customvisionnodeapp'
           slot-name: 'Production'
           package: .
           
